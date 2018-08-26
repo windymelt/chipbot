@@ -1,0 +1,4 @@
+*.fasl
+core/quicklisp/
+core/bundle-libs/
+credentials.env

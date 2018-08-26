@@ -1,0 +1,24 @@
+version: '3'
+services:
+  hubot-wrapper:
+    container_name: hubot
+    image: jordan/hubot-slack
+    environment:
+      HUBOT_NAME: "chipbot"
+      HUBOT_OWNER: "windymelt"
+    env_file:
+      - ./credentials.env
+    volumes:
+      - "./hubot-wrapper/scripts:/home/hubot/scripts"
+    depends_on:
+      - core
+  core:
+    container_name: core
+    build: core/
+    volumes:
+      - "./core:/app"
+      - "./:/repo"
+      - "/home/Windymelt/.ssh:/root/.ssh"
+    ports:
+      - "5000:5000"
+      - "6005:6005"
