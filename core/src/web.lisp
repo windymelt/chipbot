@@ -27,6 +27,7 @@
   (render #P"index.html"))
 
 (defroute "/api/hear" (&key |q| |sender|)
+  (unless |q| (throw-code 404))
   (if (equal |q| "chipbot ping")
       (render-json `(:|q| ,|q| :|answer| "chipbot pong!"))
       (throw-code 404)))
@@ -35,6 +36,7 @@
 ;; Error pages
 
 (defmethod on-exception ((app <web>) (code (eql 404)))
-  (declare (ignore app))
-  (merge-pathnames #P"_errors/404.html"
-                   *template-directory*))
+  (if (string= (gethash "accept" (request-headers *request*)) "application/json")
+      (render-json `(:|error| "not found"))
+      (merge-pathnames #P"_errors/404.html"
+                       *template-directory*)))
