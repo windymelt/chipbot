@@ -17,3 +17,11 @@
  (:class qlot.source.ql:source-ql
   :initargs (:project-name "prove" :%version :latest)
   :version "ql-2018-07-11"))
+("alexandria" .
+ (:class qlot.source.ql:source-ql
+  :initargs (:project-name "alexandria" :%version :latest)
+  :version "ql-2018-07-11"))
+("anaphora" .
+ (:class qlot.source.ql:source-ql
+  :initargs (:project-name "anaphora" :%version :latest)
+  :version "ql-2018-07-11"))

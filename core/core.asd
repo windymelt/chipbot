@@ -17,7 +17,11 @@
 
                ;; for DB
                "datafly"
-               "sxql")
+               "sxql"
+
+               ;; bot
+               "alexandria"
+               "anaphora")
   :components ((:module "src"
                 :components
                 ((:file "main" :depends-on ("config" "view" "db"))

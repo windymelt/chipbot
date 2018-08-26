@@ -6,7 +6,8 @@
         :core.view
         :core.db
         :datafly
-        :sxql)
+        :sxql
+        :anaphora)
   (:export :*web*))
 (in-package :core.web)
 
@@ -26,11 +27,21 @@
 (defroute "/" ()
   (render #P"index.html"))
 
+(defvar *singleton-string-hash* (make-hash-table :test #'equal))
+(defun singleton-string (str)
+  (sif (gethash str *singleton-string-hash*)
+      it
+      (progn
+        (setf it str))))
+
+(defmethod respond ((sender string) (q (eql (singleton-string "chipbot core help"))))
+  "help not implemented")
+(defmethod respond ((sender string) (q t))
+  (throw-code 404))
+
 (defroute "/api/hear" (&key |q| |sender|)
-  (unless |q| (throw-code 404))
-  (if (equal |q| "chipbot ping")
-      (render-json `(:|q| ,|q| :|answer| "chipbot pong!"))
-      (throw-code 404)))
+  (unless (or |q| |sender|) (throw-code 404))
+  (render-json `(:|q| ,|q| :|answer| ,(respond |sender| (singleton-string |q|)))))
 
 ;;
 ;; Error pages
