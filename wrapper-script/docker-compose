@@ -1,0 +1,7 @@
+#!/bin/bash
+set -ex
+
+# automatically update .qlfile.lock and bundle libraries
+make bundle-libraries
+
+/usr/bin/docker-compose $*
